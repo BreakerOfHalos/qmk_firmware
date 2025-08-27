@@ -220,6 +220,16 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
                        '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'
     );
 
+const key_override_t dot_colon_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_DOT, KC_COLON, );
+const key_override_t question_exclamation_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_QUES, KC_EXLM, );
+const key_override_t comma_semicolon_override = ko_make_with_layers(MOD_MASK_SHIFT, KC_COMMA, KC_SCLN, );
+
+const key_override_t *key_overrides[] = {
+    &dot_colon_override
+    &question_exclamation_override
+    &comma_semicolon_override
+};
+
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
