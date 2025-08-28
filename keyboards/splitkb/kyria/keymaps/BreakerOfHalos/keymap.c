@@ -178,15 +178,37 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
                        '*', '*', '*', '*', '*', '*', '*', '*', '*', '*'
     );
 
-const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, KC_DOT, KC_COLON);
-const key_override_t question_exclamation_override = ko_make_basic(MOD_MASK_SHIFT, KC_QUES, KC_EXLM);
-const key_override_t comma_semicolon_override = ko_make_basic(MOD_MASK_SHIFT, KC_COMMA, KC_SCLN);
+bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return true;
+    }
+    const uint8_t mods_held = mod_config(get_mods());
+    const uint8_t mods_osm = mod_config(get_oneshot_mods());
+    del_mods(mods_held);
+    clear_oneshot_mods();
+    if ((mods_held | mods_osm) & MOD_MASK_SHIFT) {
+        tap_code16(kc_1);
+    } else {
+        tap_code16(kc_0);
+    }
+    add_mods(mods_held);
+    return true;
+}
 
-const key_override_t *key_overrides[] = {
-    &dot_colon_override
-    &question_exclamation_override
-    &comma_semicolon_override
-};
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+      case SKC_QUESTION_EXCLAMATION:
+          process_record_skc(KC_QUES, KC_EXLM, record);
+          break;
+      case SKC_DOT_COLON:
+          process_record_skc(KC_DOT, KC_COLN, record);
+          break;
+      case SKC_COMMA_SEMICOLON:
+          process_record_skc(KC_COMM, KC_SCLN, record);
+          break;
+    }
+    return true;
+}
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
