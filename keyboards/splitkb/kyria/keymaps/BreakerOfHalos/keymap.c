@@ -46,15 +46,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, SHRT,      KC_E,    _______,      _______, MT_SPC,   SPEC,   _______, _______,
     ),
     [_NUM]  = LAYOUT(
-      _______, KC_K,    SE_PLUS, SE_ASTR, SE_EXLM, _______,                                            _______, _______, KC_LPRN, KC_RPRN, KC_SLSH, _______,
+      _______, KC_K,    KC_PLUS, KC_ASTR, KC_EXLM, _______,                                            _______, _______, KC_LPRN, KC_RPRN, KC_SLSH, _______,
       _______, KC_6,    KC_4,    KC_0,    KC_2,    KC_8,                                               KC_9,    KC_3,    KC_1,    KC_5,    KC_7,    REPEAT,
       _______, KC_UNDS, KC_P,    _______, KC_J,    SKC_CM_SC, _______, _______,      _______, _______, _______, NUM_G,   QU,      KC_X,    _______, _______,
                                  _______, _______, _______,   CANCEL,  _______,      _______, MT_SPC,  _______, _______, _______,
     ),
     [_NAV]  = LAYOUT(
-      _______, _______, KC_LEFT, KC_UP,   KC_RGHT, _______,                                            xxxxxxx, KC_HOME, G(KC_O), KC_END,  xxxxxxx, _______,
-      _______, KC_PGUP, SC_TAB,  DN_CTRL, C_TAB,   _______,                                            xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-      _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, _______,   _______, _______,      _______, _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
+      _______, xxxxxxx, KC_LEFT, KC_UP,   KC_RGHT, xxxxxxx,                                            xxxxxxx, KC_HOME, G(KC_O), KC_END,  xxxxxxx, _______,
+      _______, KC_PGUP, SC_TAB,  DN_CTRL, C_TAB,   xxxxxxx,                                            xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+      _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, xxxxxxx,   _______, _______,      _______, _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
                                  _______, _______, KC_LGUI,   WNAV,    _______,      _______, MT_SPC,  _______, _______, _______,
     ),
     [_WIN]  = LAYOUT(
@@ -65,9 +65,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYM]  = LAYOUT(
-      _______, TILD,    SE_PLUS, SE_ASTR, SE_EXLM, xxxxxxx,                                            xxxxxxx, SE_HASH, SE_AT,   CIRC,    SE_DOT,  _______,
-      _______, SE_PIPE, SE_LCBR, SE_RCBR, SE_MINS, SE_BSLS,                                            GRV,     SE_QUES, SE_LBRC, SE_RBRC, REPEAT,  _______,
-      _______, SE_COMM, SE_LABK, SE_RABK, SE_PERC, xxxxxxx,   _______, _______,      _______, _______, SE_SLSH, SE_AMPR, SE_LPRN, SE_RPRN, SE_UNDS, _______,
+      _______, KC_TILD, KC_PLUS, KC_ASTR, KC_EXLM, SKC_QN_EX,                                          KC_CIRC, KC_HASH, KC_LPRN, KC_RPRN, KC_SLSH, _______,
+      _______, KC_PIPE, KC_LBRC, KC_RBRC, KC_MINS, SKC_DT_CN,                                          KC_GRV,  KC_AT,   KC_LCBR, KC_RCBR, REPEAT,  _______,
+      _______, KC_UNDS, KC_LABK, KC_RABK, KC_PERC, SKC_CM_SC, _______, _______,      _______, _______, xxxxxxx, KC_AMPR, KC_BSLS, xxxxxxx, xxxxxxx, _______,
                                  _______, _______, _______,   _______, _______,      _______, CANCEL,  _______, _______, _______
     ),
     [_MODS] = LAYOUT(
@@ -77,9 +77,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, _______,  _______, _______,       _______, _______, _______, _______, _______
     ),
     [_SHRT] = LAYOUT(
-      _______, C(SE_Q), C(SE_W), C(SE_E), C(SE_R), C(SE_T),                                            _______, _______, _______, _______, _______, _______,
-      _______, C(SE_A), C(SE_S), C(SE_D), C(SE_F), C(SE_G),                                            _______, _______, _______, _______, _______, _______,
-      _______, C(SE_Z), C(SE_X), C(SE_C), C(SE_V), C(SE_B),  _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
+      _______, C(KC_Q), C(KC_W), C(KC_E), C(KC_R), C(KC_T),                                            _______, _______, _______, _______, _______, _______,
+      _______, C(KC_A), C(KC_S), C(KC_D), C(KC_F), C(KC_G),                                            _______, _______, _______, _______, _______, _______,
+      _______, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), C(KC_B),  _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, SHRT,     _______, _______,       _______, _______, FUN,     _______, _______,
     ),
     [_WNAV] = LAYOUT(
@@ -95,8 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, SHRT,     _______, _______,       _______, _______, SPEC,    _______, _______
     ),
     [_SPEC] = LAYOUT(
-      _______, SE_TILD, SYM_LQO, _______, SYM_RQO, _______,                                            _______, _______, _______, SE_CIRC, SE_DIAE, _______,
-      _______, _______, SYM_LDQ, _______, SYM_RDQ, SE_ACUT,                                            SE_GRV,  SYM_LFT, SYM_DWN, SYM_UP,  SYM_RHT, _______,
+      _______, ALGR(KC_TILD), SYM_LQO, _______, SYM_RQO, _______,                                            _______, _______, _______, ALGR(KC_CIRC), KC_DIAE, _______,
+      _______, _______, SYM_LDQ, _______, SYM_RDQ, ALGR(KC_QUOT),                                            ALGR(KC_GRV),  SYM_LFT, SYM_DWN, SYM_UP,  SYM_RHT, _______,
       _______, _______, _______, _______, _______, _______,  _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, FUN,      _______, _______,       _______, _______, SPEC,    _______, _______
     )
