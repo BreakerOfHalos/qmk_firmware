@@ -72,7 +72,7 @@ enum custom_keycodes {
     NV_LBRC,
     NV_RBRC,
     NV_R,
-    NV_LFT,
+    NV_LEFT,
     NV_DOWN,
     NV_UP,
 };

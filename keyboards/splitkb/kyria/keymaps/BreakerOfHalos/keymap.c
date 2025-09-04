@@ -83,10 +83,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, SHRT,     _______, _______,       _______, _______, FUN,     _______, _______,
     ),
     [_WNAV] = LAYOUT(
-      _______, NV_ESC, G(KC_C), xxxxxxx, xxxxxxx, xxxxxxx,                                            xxxxxxx, G(SE_W), G(SE_E), G(SE_R), xxxxxxx, _______,
-      _______, xxxxxxx, G(SE_4), G(SE_0), G(SE_2), G(SE_K),                                            xxxxxxx, G(SE_3), G(SE_1), G(SE_5), G(SE_7), _______,
-      _______, xxxxxxx, xxxxxxx, xxxxxxx, G(SE_8), xxxxxxx, _______,  _______,       _______, _______, xxxxxxx, G(SE_9), G(SE_H), G(SE_L), xxxxxxx, _______,
-                                 _______, _______, _______, G(KC_SPC),_______,       _______, WNAV,    _______, _______, _______
+      _______, NV_ESC,  xxxxxxx, xxxxxxx, NV_EQL,  xxxxxxx,                                            NV_V,    NV_HOME, NV_O,    NV_END,  NV_Q,    _______,
+      _______, xxxxxxx, NV_LBRC, NV_RBRC, NV_R,    NV_DOT,                                             NV_C,    NV_LEFT, NV_DOWN, NV_UP,   NV_RGHT, _______,
+      _______, xxxxxxx, NV_P,    NV_F,    NV_MINS, NV_COMM, _______,  _______,       _______, _______, xxxxxxx, xxxxxxx, NV_W,    xxxxxxx, xxxxxxx, _______,
+                                 _______, _______, _______, NV_SPC,   _______,       _______, WNAV,    _______, _______, _______
     ),
     [_FUN]  = LAYOUT(
       _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,                                            xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
