@@ -69,28 +69,12 @@ enum custom_keycodes {
     REV_REP,
 
     // Workspace layer keys
-    NV_ESC,
     NV_LBRC,
     NV_RBRC,
-    NV_P,
-    NV_F,
     NV_R,
-    NV_EQ,
-    NV_MIN,
-    NV_DOT,
-    NV_CMMA,
-    NV_V,
-    NV_C,
-    NV_HOME,
-    NV_END,
-    NV_O,
     NV_LFT,
-    NV_RGHT,
     NV_DOWN,
     NV_UP,
-    NV_Q,
-    NV_W,
-    NV_SPC,
 };
 
 #define xxxxxxx KC_NO
@@ -127,3 +111,20 @@ enum custom_keycodes {
 #define SYM_RDQ ALGR(KC_B)    // ” b
 #define SYM_LQO ALGR(S(KC_V)) // ‘ V
 #define SYM_RQO ALGR(S(KC_B)) // ’ B
+
+#define NV_ESC G(KC_ESC)
+#define NV_P G(KC_P)
+#define NV_F G(KC_F)
+#define NV_EQL G(KC_EQL)
+#define NV_MINS G(KC_MINS)
+#define NV_DOT G(KC_DOT)
+#define NV_COMM G(KC_COMM)
+#define NV_V G(KC_V)
+#define NV_C G(KC_C)
+#define NV_HOME G(KC_HOME)
+#define NV_O G(KC_O)
+#define NV_END G(KC_END)
+#define NV_RGHT G(KC_RGHT)
+#define NV_Q G(KC_Q)
+#define NV_W G(KC_W)
+#define NV_SPC G(KC_SPC)

@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, SHRT,     _______, _______,       _______, _______, FUN,     _______, _______,
     ),
     [_WNAV] = LAYOUT(
-      _______, G(KC_ESC), G(KC_C), xxxxxxx, xxxxxxx, xxxxxxx,                                            xxxxxxx, G(SE_W), G(SE_E), G(SE_R), xxxxxxx, _______,
+      _______, NV_ESC, G(KC_C), xxxxxxx, xxxxxxx, xxxxxxx,                                            xxxxxxx, G(SE_W), G(SE_E), G(SE_R), xxxxxxx, _______,
       _______, xxxxxxx, G(SE_4), G(SE_0), G(SE_2), G(SE_K),                                            xxxxxxx, G(SE_3), G(SE_1), G(SE_5), G(SE_7), _______,
       _______, xxxxxxx, xxxxxxx, xxxxxxx, G(SE_8), xxxxxxx, _______,  _______,       _______, _______, xxxxxxx, G(SE_9), G(SE_H), G(SE_L), xxxxxxx, _______,
                                  _______, _______, _______, G(KC_SPC),_______,       _______, WNAV,    _______, _______, _______
