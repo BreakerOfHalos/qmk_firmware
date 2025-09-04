@@ -37,7 +37,6 @@ enum custom_keycodes {
     // Multiple chars
     QU,
     SC,
-    AT_U,
 
     // É
     E_ACUT,
@@ -62,14 +61,36 @@ enum custom_keycodes {
     CANCEL, // Cancel SYMWORD and NUMWORD
     CLEAR,  // Clear all WORD, one-shots and reset to BASE
 
-    TG_SWE,
-
     // Instant leader key
     LEADER,
 
     // Repeat keys
     REPEAT,
     REV_REP,
+
+    // Workspace layer keys
+    NV_ESC,
+    NV_LBRC,
+    NV_RBRC,
+    NV_P,
+    NV_F,
+    NV_R,
+    NV_EQ,
+    NV_MIN,
+    NV_DOT,
+    NV_CMMA,
+    NV_V,
+    NV_C,
+    NV_HOME,
+    NV_END,
+    NV_O,
+    NV_LFT,
+    NV_RGHT,
+    NV_DOWN,
+    NV_UP,
+    NV_Q,
+    NV_W,
+    NV_SPC,
 };
 
 #define xxxxxxx KC_NO
@@ -98,11 +119,11 @@ enum custom_keycodes {
 
 #define GAME2 OSL(_GAME2)
 
-#define SYM_LFT ALGR(SE_Y)    // ← y
-#define SYM_DWN ALGR(SE_U)    // ↓ u
-#define SYM_RHT ALGR(SE_I)    // → i
-#define SYM_UP ALGR(S(SE_U))  // ↑ U
-#define SYM_LDQ ALGR(SE_V)    // “ v
-#define SYM_RDQ ALGR(SE_B)    // ” b
-#define SYM_LQO ALGR(S(SE_V)) // ‘ V
-#define SYM_RQO ALGR(S(SE_B)) // ’ B
+#define SYM_LFT ALGR(KC_Y)    // ← y
+#define SYM_DWN ALGR(KC_U)    // ↓ u
+#define SYM_RHT ALGR(KC_I)    // → i
+#define SYM_UP ALGR(S(KC_U))  // ↑ U
+#define SYM_LDQ ALGR(KC_V)    // “ v
+#define SYM_RDQ ALGR(KC_B)    // ” b
+#define SYM_LQO ALGR(S(KC_V)) // ‘ V
+#define SYM_RQO ALGR(S(KC_B)) // ’ B
