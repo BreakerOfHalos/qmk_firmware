@@ -10,7 +10,6 @@
 
 enum layers {
     _BASE = 0,
-    _SWE,
     _NUM,
     _NAV,
     _WNAV,
@@ -75,6 +74,11 @@ enum custom_keycodes {
     NV_LEFT,
     NV_DOWN,
     NV_UP,
+
+    // Custom punctuation keys
+    SKC_QUESTION_EXCLAMATION,
+    SKC_DOT_COLON,
+    SKC_COMMA_SEMICOLON,
 };
 
 #define xxxxxxx KC_NO
@@ -128,3 +132,7 @@ enum custom_keycodes {
 #define NV_Q G(KC_Q)
 #define NV_W G(KC_W)
 #define NV_SPC G(KC_SPC)
+
+#define DOT_CN SKC_DOT_COLON
+#define COMM_SC SKC_COMMA_SEMICOLON
+#define QN_EXCM SKC_QUESTION_EXCLAMATION
