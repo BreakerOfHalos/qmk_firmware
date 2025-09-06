@@ -31,11 +31,6 @@
 #    define TAPPING_TERM 220
 #endif
 
-// Prevent normal rollover on alphas from accidentally triggering mods.
-// Now the default behavior!
-// #define IGNORE_MOD_TAP_INTERRUPT
-// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
-#define TAPPING_FORCE_HOLD
 // Apply the modifier on keys that are tapped during a short hold of a modtap
 #define PERMISSIVE_HOLD
 // Immediately turn on layer if key is pressed quickly
@@ -49,11 +44,9 @@
 // All combos are specified from the base layer, saves space
 #define COMBO_ONLY_FROM_LAYER 0
 
-#define DEFAULT_XCASE_SEPARATOR KC_MINS
-#define XCASE_DELIMITER_KEY KC_UNDS
+#define CHORDAL_HOLD
 
-// Cannot import "keymap_swedish.h" as it sometimes generates extremely weird errors.
-#define LEADER_ESC_KEY KC_E
+
 
 // Not supported without flto
 #define NO_ACTION_MACRO
