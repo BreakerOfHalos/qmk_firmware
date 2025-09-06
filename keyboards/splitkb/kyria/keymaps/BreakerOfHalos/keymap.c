@@ -135,6 +135,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT(
+        '*', 'L', 'L', 'L', 'L', '*',                      '*', 'R', '*', '*', '*', '*',
+        '*', 'L', 'L', 'L', 'L', '*',                      '*', 'R', 'R', 'R', 'R', '*',
+        '*', 'L', 'L', 'L', 'L', '*', '*', '*',  '*', '*', '*', 'R', 'R', 'R', 'R', '*',
+                       '*', '*', '*', '*', '*',  '*', '*', '*', '*', '*'
+    );
+
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
