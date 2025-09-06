@@ -63,6 +63,7 @@ void update_reverse_key_pairs(uint16_t a, uint16_t b, keyrecord_t *record) {
     }
 }
 
+// TODO: Update with the actual keys I'm using.
 void update_reverse_repeat_key(keyrecord_t *record) {
     // Do the "reverse" of the last pressed key, that we use to repeat
     update_reverse_key_pairs(C(KC_TAB), C(S(KC_TAB)), record);
