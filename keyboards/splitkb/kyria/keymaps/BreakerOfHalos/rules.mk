@@ -5,6 +5,4 @@ RGBLIGHT_ENABLE = yes      # Enable keyboard RGB underglow
 # KEY_OVERRIDE_ENABLE = yes  # Enables key overrides
 REPEAT_KEY_ENABLE = yes
 CAPS_WORD_ENABLE = yes
-LEADER_ENABLE = yes
-COMBO_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes

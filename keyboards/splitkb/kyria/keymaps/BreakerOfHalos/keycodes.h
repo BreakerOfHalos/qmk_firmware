@@ -22,26 +22,12 @@ enum layers {
 };
 
 enum custom_keycodes {
-    // Direct dead keys ~`^
-    TILD = QK_USER,
-    GRV,
-    CIRC,
 
     // Vim
     SAVE_VIM,
     VIM_VS,
     VIM_SP,
     CLOSE_WIN,
-
-    // Multiple chars
-    QU,
-    SC,
-
-    // É
-    E_ACUT,
-
-    // Custom keycodes for instant processing for NUMWORD
-    NUM_G,
 
     // Custom Win + Alt for window toggling on Windows
     WIN_ALT,
@@ -62,10 +48,6 @@ enum custom_keycodes {
 
     // Instant leader key
     LEADER,
-
-    // Repeat keys
-    REPEAT,
-    REV_REP,
 
     // Workspace layer keys
     NV_LBRC,

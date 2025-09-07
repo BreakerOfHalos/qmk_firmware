@@ -19,10 +19,65 @@
 
 #include "keycodes.h"
 #include "oneshot.h"
-#include "casemodes.h"
 #include "layermodes.h"
 
 #include "g/keymap_combo.h"
+
+enum layers {
+    _BASE = 0,
+    _NAVIGATION,
+    _SYMBOLS,
+    _NUMBERS,
+};
+
+enum custom_keycodes {
+    // Custom Win + Alt for window toggling on Windows
+    WIN_ALT,
+
+    // Instant oneshot mods
+    OS_SHFT,
+    OS_CTRL,
+    OS_ALT,
+    OS_GUI,
+
+    // Smart caps lock and layers that turn off on certain keys
+    CAPSWORD,
+    NUMWORD,
+
+    // Layer management
+    CANCEL, // Cancel SYMWORD and NUMWORD
+    CLEAR,  // Clear all WORD, one-shots and reset to BASE
+
+    // Instant leader key
+    LEADER,
+
+    // Workspace layer keys
+    NV_LBRC,
+    NV_RBRC,
+    NV_R,
+    NV_LEFT,
+    NV_DOWN,
+    NV_UP,
+
+    // Custom punctuation keys
+    SKC_QUESTION_EXCLAMATION,
+    SKC_DOT_COLON,
+    SKC_COMMA_SEMICOLON,
+};
+
+// Aliases for readability
+#define BASE DF(_BASE)
+
+#define NAV  MO(_NAVIGATION)
+#define SYM  MO(_SYMBOLS)
+#define NUM  MO(_NUMBERS)
+
+#define C_TAB C(KC_TAB)
+#define SC_TAB S(C(KC_TAB))
+
+#define DOT_CN SKC_DOT_COLON
+#define COMM_SC SKC_COMMA_SEMICOLON
+#define QN_EXCM SKC_QUESTION_EXCLAMATION
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -34,48 +89,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_Z,    KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    _______,
                                  _______, _______, SHRT,    MO(NAV), _______,      _______, KC_SPC,   SPEC,   _______, _______,
     ),
-    [_NUM]  = LAYOUT(
+    [_NUMBERS]  = LAYOUT(
       _______, KC_K,    KC_PLUS, KC_ASTR, KC_EXLM, _______,                                          _______, _______, KC_LPRN, KC_RPRN, KC_SLSH, _______,
       _______, KC_6,    KC_4,    KC_0,    KC_2,    KC_8,                                             KC_9,    KC_3,    KC_1,    KC_5,    KC_7,    REPEAT,
       _______, KC_UNDS, KC_P,    _______, KC_J,    COMM_SC, _______, _______,      _______, _______, _______, NUM_G,   QU,      KC_X,    _______, _______,
                                  _______, _______, _______, CANCEL,  _______,      _______, KC_SPC,  _______, _______, _______,
     ),
-    [_NAV]  = LAYOUT(
+    [_NAVIGATION]  = LAYOUT(
       _______, xxxxxxx, KC_LEFT, KC_UP,   KC_RGHT, xxxxxxx,                                          xxxxxxx, KC_HOME, SC_TAB, C_TAB,  KC_END, _______,
       _______, OS_SHFT, OS_ALT,  OS_GUI, OS_CTRL,   xxxxxxx,                                          xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
       _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, xxxxxxx, _______, _______,      _______, _______, KC_DEL, KC_BKSP,  KC_PGDN, KC_PGUP, C_TAB, _______,
-                                 _______, _______, KC_LGUI, WNAV,    _______,      _______, KC_SPC,  _______, _______, _______,
+                                 _______, _______, KC_LGUI, WNAV,    _______,      _______, KC_ENT,  _______, _______, _______,
     ),
-    [_WIN]  = LAYOUT(
+    [_WINDOWS]  = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                          _______, _______, _______, _______, _______, _______,
       _______, _______, S_TAB,   _______, KC_TAB,  _______,                                          _______, _______, _______, _______, _______, _______,
       _______, _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
-    [_SYM]  = LAYOUT(
+    [_SYMBOLS]  = LAYOUT(
       _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_ASTR, KC_GRV,  _______,
       _______, KC_PIPE, KC_EQL,  KC_LPRN, KC_RPRN, DOT_CN,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
       _______, KC_UNDS, KC_MINS, KC_LBRC, KC_RBRC, COMM_SC, _______, _______,      _______, _______, KC_AT,   KC_SLSH, KC_BSLS, KC_AMPR, xxxxxxx, _______,
                                  _______, _______, _______, _______, _______,      _______, _______,  _______, _______, _______
-    ),
-    [_MODS] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                           xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
-      _______, _______, _______, _______, _______, _______,                                           xxxxxxx, OS_GUI,  OS_CTRL, OS_SHFT, OS_ALT,  _______,
-      _______, _______, _______, _______, _______, _______, _______, _______,       _______, _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, MY_RALT, _______,
-                                 _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______
-    ),
-    [_SHRT] = LAYOUT(
-      _______, C(KC_Q), C(KC_W), C(KC_E), C(KC_R), C(KC_T),                                           _______, _______, _______, _______, _______, _______,
-      _______, C(KC_A), C(KC_S), C(KC_D), C(KC_F), C(KC_G),                                           _______, _______, _______, _______, _______, _______,
-      _______, C(KC_Z), C(KC_X), C(KC_C), C(KC_V), C(KC_B), _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, _______, SHRT,    _______, _______,       _______, _______, FUN,     _______, _______,
-    ),
-    [_WNAV] = LAYOUT(
-      _______, NV_ESC,  xxxxxxx, xxxxxxx, NV_EQL,  xxxxxxx,                                            NV_V,    NV_HOME, NV_O,    NV_END,  NV_Q,    _______,
-      _______, xxxxxxx, NV_LBRC, NV_RBRC, NV_R,    NV_DOT,                                             NV_C,    NV_LEFT, NV_DOWN, NV_UP,   NV_RGHT, _______,
-      _______, xxxxxxx, NV_P,    NV_F,    NV_MINS, NV_COMM, _______,  _______,       _______, _______, xxxxxxx, xxxxxxx, NV_W,    xxxxxxx, xxxxxxx, _______,
-                                 _______, _______, _______, NV_SPC,   _______,       _______, WNAV,    _______, _______, _______
     ),
     [_FUN]  = LAYOUT(
       _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,                                           xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
@@ -83,12 +120,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, xxxxxxx, xxxxxxx, xxxxxxx, KC_F8,   xxxxxxx, _______, _______,       _______, _______, xxxxxxx, KC_F9,   xxxxxxx, xxxxxxx, xxxxxxx, _______,
                                  _______, _______, SHRT,    _______, _______,       _______, _______, SPEC,    _______, _______
     ),
-    [_SPEC] = LAYOUT(
-      _______, ALGR(KC_TILD), SYM_LQO, _______, SYM_RQO, _______,                                            _______, _______, _______, ALGR(KC_CIRC), KC_DIAE, _______,
-      _______, _______, SYM_LDQ, _______, SYM_RDQ, ALGR(KC_QUOT),                                            ALGR(KC_GRV),  SYM_LFT, SYM_DWN, SYM_UP,  SYM_RHT, _______,
-      _______, _______, _______, _______, _______, _______,  _______, _______,       _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, _______, FUN,      _______, _______,       _______, _______, SPEC,    _______, _______
-    )
 };
 
 
@@ -123,14 +154,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
-const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
-    LAYOUT(
-        '*', 'L', 'L', 'L', 'L', '*',                      '*', 'R', '*', '*', '*', '*',
-        '*', 'L', 'L', 'L', 'L', '*',                      '*', 'R', 'R', 'R', 'R', '*',
-        '*', 'L', 'L', 'L', 'L', '*', '*', '*',  '*', '*', '*', 'R', 'R', 'R', 'R', '*',
-                       '*', '*', '*', '*', '*',  '*', '*', '*', '*', '*'
-    );
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
