@@ -67,15 +67,15 @@ void update_reverse_key_pairs(uint16_t a, uint16_t b, keyrecord_t *record) {
 void update_reverse_repeat_key(keyrecord_t *record) {
     // Do the "reverse" of the last pressed key, that we use to repeat
     update_reverse_key_pairs(C(KC_TAB), C(S(KC_TAB)), record);
-    update_reverse_key_pairs(C(KC_N), C(KC_P), record);
-    update_reverse_key_pairs(C(KC_F), C(KC_B), record);
-    update_reverse_key_pairs(C(KC_U), C(KC_D), record);
+    //update_reverse_key_pairs(C(KC_N), C(KC_P), record);
+    //update_reverse_key_pairs(C(KC_F), C(KC_B), record);
+    //update_reverse_key_pairs(C(KC_U), C(KC_D), record);
     update_reverse_key_pairs(C(KC_G), C(S(KC_G)), record);
-    update_reverse_key_pairs(KC_PGUP, KC_PGDN, record);
+    //update_reverse_key_pairs(KC_PGUP, KC_PGDN, record);
     update_reverse_key_pairs(KC_ASTR, KC_HASH, record);
-    update_reverse_key_pairs(KC_LCBR, KC_RCBR, record);
+    //update_reverse_key_pairs(KC_LCBR, KC_RCBR, record);
     update_reverse_key_pairs(G(KC_K), G(KC_J), record);
-    update_reverse_key_pairs(C(KC_O), C(KC_I), record);
+    //update_reverse_key_pairs(C(KC_O), C(KC_I), record);
 
     update_reverse_key_pairs(S(KC_W), S(KC_B), record);
     update_reverse_key_pairs(KC_U, C(KC_R), record);

@@ -1,8 +1,6 @@
-// From https://github.com/callum-oakley/qmk_firmware/tree/master/users/callum
-
 #include "oneshot.h"
 
-void update_oneshot_pre(
+void update_oneshot(
     oneshot_state *state,
     uint16_t mod,
     uint16_t trigger,
@@ -19,17 +17,17 @@ void update_oneshot_pre(
         } else {
             // Trigger keyup
             switch (*state) {
-                case os_down_unused:
-                    // If we didn't use the mod while trigger was held, queue it.
-                    *state = os_up_queued;
-                    break;
-                case os_down_used:
-                    // If we did use the mod while trigger was held, unregister it.
-                    *state = os_up_unqueued;
-                    unregister_code(mod);
-                    break;
-                default:
-                    break;
+            case os_down_unused:
+                // If we didn't use the mod while trigger was held, queue it.
+                *state = os_up_queued;
+                break;
+            case os_down_used:
+                // If we did use the mod while trigger was held, unregister it.
+                *state = os_up_unqueued;
+                unregister_code(mod);
+                break;
+            default:
+                break;
             }
         }
     } else {
@@ -39,21 +37,10 @@ void update_oneshot_pre(
                 *state = os_up_unqueued;
                 unregister_code(mod);
             }
-        }
-    }
-}
-
-void update_oneshot_post(
-    oneshot_state *state,
-    uint16_t mod,
-    uint16_t trigger,
-    uint16_t keycode,
-    keyrecord_t *record
-) {
-    if (keycode != trigger && !record->event.pressed) {
-        if (!is_oneshot_ignored_key(keycode)) {
-            // On non-ignored keyup, consider the oneshot used.
-            switch (*state) {
+        } else {
+            if (!is_oneshot_ignored_key(keycode)) {
+                // On non-ignored keyup, consider the oneshot used.
+                switch (*state) {
                 case os_down_unused:
                     *state = os_down_used;
                     break;
@@ -63,6 +50,7 @@ void update_oneshot_post(
                     break;
                 default:
                     break;
+                }
             }
         }
     }

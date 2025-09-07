@@ -18,17 +18,10 @@
 #include QMK_KEYBOARD_H
 
 #include "keycodes.h"
-#include "status.h"
 #include "oneshot.h"
 #include "casemodes.h"
 #include "layermodes.h"
-#include "tap_hold.h"
-#include "repeat.h"
-#include "roll.h"
-#include "leader.h"
 
-#include "keymap_swedish.h"
-#include "sendstring_swedish.h"
 #include "g/keymap_combo.h"
 
 #ifdef CONSOLE_ENABLE
