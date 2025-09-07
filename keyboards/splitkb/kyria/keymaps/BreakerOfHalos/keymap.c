@@ -24,31 +24,27 @@
 
 #include "g/keymap_combo.h"
 
-#ifdef CONSOLE_ENABLE
-#    include "print.h"
-#endif
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * Base Layer: Modified THE-1
      */
     [_BASE] = LAYOUT(
-      _______, KC_K,    KC_M,    KC_L,    K_U,     QN_EXCM,                                           KC_V,   KC_D,    KC_LPRN, KC_RPRN, KC_SLSH, _______,
-      _______, KC_A,    KC_T,    KC_H,    KC_R,    DOT_CN,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    REPEAT,
-      _______, KC_UNDS, KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    _______,
-                                 _______, _______, SHRT,    KC_E,    _______,      _______, MT_SPC,   SPEC,   _______, _______,
+      _______, KC_K,    KC_M,    KC_L,    K_U,     QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QOUT, KC_Q,    _______,
+      _______, KC_A,    KC_T,    KC_H,    KC_E,    DOT_CN,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    REPEAT,
+      _______, KC_Z,    KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    _______,
+                                 _______, _______, SHRT,    MO(NAV), _______,      _______, KC_SPC,   SPEC,   _______, _______,
     ),
     [_NUM]  = LAYOUT(
       _______, KC_K,    KC_PLUS, KC_ASTR, KC_EXLM, _______,                                          _______, _______, KC_LPRN, KC_RPRN, KC_SLSH, _______,
       _______, KC_6,    KC_4,    KC_0,    KC_2,    KC_8,                                             KC_9,    KC_3,    KC_1,    KC_5,    KC_7,    REPEAT,
       _______, KC_UNDS, KC_P,    _______, KC_J,    COMM_SC, _______, _______,      _______, _______, _______, NUM_G,   QU,      KC_X,    _______, _______,
-                                 _______, _______, _______, CANCEL,  _______,      _______, MT_SPC,  _______, _______, _______,
+                                 _______, _______, _______, CANCEL,  _______,      _______, KC_SPC,  _______, _______, _______,
     ),
     [_NAV]  = LAYOUT(
-      _______, xxxxxxx, KC_LEFT, KC_UP,   KC_RGHT, xxxxxxx,                                          xxxxxxx, KC_HOME, G(KC_O), KC_END,  xxxxxxx, _______,
-      _______, KC_PGUP, SC_TAB,  DN_CTRL, C_TAB,   xxxxxxx,                                          xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-      _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, xxxxxxx, _______, _______,      _______, _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
-                                 _______, _______, KC_LGUI, WNAV,    _______,      _______, MT_SPC,  _______, _______, _______,
+      _______, xxxxxxx, KC_LEFT, KC_UP,   KC_RGHT, xxxxxxx,                                          xxxxxxx, KC_HOME, SC_TAB, C_TAB,  KC_END, _______,
+      _______, OS_SHFT, OS_ALT,  OS_GUI, OS_CTRL,   xxxxxxx,                                          xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+      _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, xxxxxxx, _______, _______,      _______, _______, KC_DEL, KC_BKSP,  KC_PGDN, KC_PGUP, C_TAB, _______,
+                                 _______, _______, KC_LGUI, WNAV,    _______,      _______, KC_SPC,  _______, _______, _______,
     ),
     [_WIN]  = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                          _______, _______, _______, _______, _______, _______,
@@ -58,10 +54,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYM]  = LAYOUT(
-      _______, KC_TILD, KC_PLUS, KC_ASTR, KC_EXLM, QN_EXCM,                                          KC_CIRC, KC_HASH, KC_LPRN, KC_RPRN, KC_SLSH, _______,
-      _______, KC_PIPE, KC_LBRC, KC_RBRC, KC_MINS, DOT_CN,                                           KC_GRV,  KC_AT,   KC_LCBR, KC_RCBR, REPEAT,  _______,
-      _______, KC_UNDS, KC_LABK, KC_RABK, KC_PERC, COMM_SC, _______, _______,      _______, _______, xxxxxxx, KC_AMPR, KC_BSLS, xxxxxxx, xxxxxxx, _______,
-                                 _______, _______, _______, _______, _______,      _______, CANCEL,  _______, _______, _______
+      _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_ASTR, KC_GRV,  _______,
+      _______, KC_PIPE, KC_EQL,  KC_LPRN, KC_RPRN, DOT_CN,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
+      _______, KC_UNDS, KC_MINS, KC_LBRC, KC_RBRC, COMM_SC, _______, _______,      _______, _______, KC_AT,   KC_SLSH, KC_BSLS, KC_AMPR, xxxxxxx, _______,
+                                 _______, _______, _______, _______, _______,      _______, _______,  _______, _______, _______
     ),
     [_MODS] = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                           xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,

@@ -83,7 +83,6 @@ enum custom_keycodes {
 
 #define xxxxxxx KC_NO
 
-#define MT_SPC LT(_NAV, KC_SPC)
 #define MY_RALT OSM(MOD_RALT)
 #define DN_CTRL LCTL_T(KC_DOWN)
 
