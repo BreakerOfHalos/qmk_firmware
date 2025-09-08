@@ -17,9 +17,7 @@
 #include "quantum.h"
 #include QMK_KEYBOARD_H
 
-#include "keycodes.h"
 #include "oneshot.h"
-#include "layermodes.h"
 
 #include "g/keymap_combo.h"
 
@@ -40,24 +38,8 @@ enum custom_keycodes {
     OS_ALT,
     OS_GUI,
 
-    // Smart caps lock and layers that turn off on certain keys
-    CAPSWORD,
-    NUMWORD,
-
-    // Layer management
-    CANCEL, // Cancel SYMWORD and NUMWORD
-    CLEAR,  // Clear all WORD, one-shots and reset to BASE
-
-    // Instant leader key
-    LEADER,
-
-    // Workspace layer keys
-    NV_LBRC,
-    NV_RBRC,
-    NV_R,
-    NV_LEFT,
-    NV_DOWN,
-    NV_UP,
+    // One key copy/paste
+    KC_CCCV
 
     // Custom punctuation keys
     SKC_QUESTION_EXCLAMATION,
@@ -68,14 +50,19 @@ enum custom_keycodes {
 // Aliases for readability
 #define BASE DF(_BASE)
 
-#define NAV  MO(_NAVIGATION)
-#define SYM  MO(_SYMBOLS)
-#define NUM  MO(_NUMBERS)
+#define NAV     MO(_NAVIGATION)
+#define SYM     MO(_SYMBOLS)
+#define NUM     MO(_NUMBERS)
 
-#define C_TAB C(KC_TAB)
-#define SC_TAB S(C(KC_TAB))
+#define C_TAB   C(KC_TAB)
+#define SC_TAB  S(C(KC_TAB))
 
-#define DOT_CN SKC_DOT_COLON
+#define CLOSE   G(KC_Q)
+#define TERM    G(KC_T)
+#define LAUNCH  G(KC_D)
+#define OVERVW  G(KC_O)
+
+#define DOT_CN  SKC_DOT_COLON
 #define COMM_SC SKC_COMMA_SEMICOLON
 #define QN_EXCM SKC_QUESTION_EXCLAMATION
 
@@ -87,42 +74,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_K,    KC_M,    KC_L,    K_U,     QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QOUT, KC_Q,    _______,
       _______, KC_A,    KC_T,    KC_H,    KC_E,    DOT_CN,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    REPEAT,
       _______, KC_Z,    KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    _______,
-                                 _______, _______, SHRT,    MO(NAV), _______,      _______, KC_SPC,   SPEC,   _______, _______,
-    ),
-    [_NUMBERS]  = LAYOUT(
-      _______, KC_K,    KC_PLUS, KC_ASTR, KC_EXLM, _______,                                          _______, _______, KC_LPRN, KC_RPRN, KC_SLSH, _______,
-      _______, KC_6,    KC_4,    KC_0,    KC_2,    KC_8,                                             KC_9,    KC_3,    KC_1,    KC_5,    KC_7,    REPEAT,
-      _______, KC_UNDS, KC_P,    _______, KC_J,    COMM_SC, _______, _______,      _______, _______, _______, NUM_G,   QU,      KC_X,    _______, _______,
-                                 _______, _______, _______, CANCEL,  _______,      _______, KC_SPC,  _______, _______, _______,
+                                 _______, _______, NAV,     KC_BKSP, KC_ESC,       KC_ENT,  KC_SPC,   SYM,   _______, _______,
     ),
     [_NAVIGATION]  = LAYOUT(
-      _______, xxxxxxx, KC_LEFT, KC_UP,   KC_RGHT, xxxxxxx,                                          xxxxxxx, KC_HOME, SC_TAB, C_TAB,  KC_END, _______,
-      _______, OS_SHFT, OS_ALT,  OS_GUI, OS_CTRL,   xxxxxxx,                                          xxxxxxx, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-      _______, KC_ENT,  xxxxxxx, xxxxxxx, KC_PGDN, xxxxxxx, _______, _______,      _______, _______, KC_DEL, KC_BKSP,  KC_PGDN, KC_PGUP, C_TAB, _______,
-                                 _______, _______, KC_LGUI, WNAV,    _______,      _______, KC_ENT,  _______, _______, _______,
-    ),
-    [_WINDOWS]  = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                          _______, _______, _______, _______, _______, _______,
-      _______, _______, S_TAB,   _______, KC_TAB,  _______,                                          _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______
+      _______, CLOSE,   TERM,    LAUNCH,  OVERVW,  KC_VOLU,                                          KC_CCCV, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______,
+      _______, OS_SHFT, OS_ALT,  OS_GUI,  OS_CTRL, KC_MPLAY,                                         CW_TOGG, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+      _______, XXXXXXX, XXXXXXX, KC_MPRV, KC_MNXT, KC_VOLD, _______, _______,      _______, _______, KC_DEL,  KC_TAB,  SC_TAB,  C_TAB,   XXXXXXX, _______,
+                                 _______, _______, _______, _______, _______,      KC_ESC, KC_BKSP,  _______, _______, _______,
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYMBOLS]  = LAYOUT(
-      _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_ASTR, KC_GRV,  _______,
-      _______, KC_PIPE, KC_EQL,  KC_LPRN, KC_RPRN, DOT_CN,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
-      _______, KC_UNDS, KC_MINS, KC_LBRC, KC_RBRC, COMM_SC, _______, _______,      _______, _______, KC_AT,   KC_SLSH, KC_BSLS, KC_AMPR, xxxxxxx, _______,
-                                 _______, _______, _______, _______, _______,      _______, _______,  _______, _______, _______
+      _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_QUOT, KC_GRV,  _______,
+      _______, KC_UNDS, KC_EQL,  KC_LPRN, KC_RPRN, DOT_CN,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
+      _______, KC_ASTR, KC_MINS, KC_LBRC, KC_RBRC, COMM_SC, _______, _______,      _______, _______, KC_AT,   KC_BSLS, KC_SLSH, KC_AMPR, KC_PIPE, _______,
+                                 _______, _______, _______, KC_SPC, KC_ENT,        _______, _______,  _______, _______, _______
     ),
-    [_FUN]  = LAYOUT(
-      _______, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,                                           xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, _______,
-      _______, KC_F6,   KC_F4,   KC_F10,  KC_F2,   KC_F12,                                            KC_F11,  KC_F3,   KC_F1,   KC_F5,   KC_F7,   _______,
-      _______, xxxxxxx, xxxxxxx, xxxxxxx, KC_F8,   xxxxxxx, _______, _______,       _______, _______, xxxxxxx, KC_F9,   xxxxxxx, xxxxxxx, xxxxxxx, _______,
-                                 _______, _______, SHRT,    _______, _______,       _______, _______, SPEC,    _______, _______
+    [_NUMBERS]  = LAYOUT(
+      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_F6,   KC_F7,   KC_F8,   C_F9,    KC_F10,  _______,
+      _______, KC_4,    KC_7,    OS_ALT,  KC_3,    DOT_CN,                                           KC_HASH, KC_5,    OS_CTRL, KC_0,    KC_1,    _______,
+      _______, KC_2,    KC_MINS, OS_GUI,  KC_9,    COMM_SC, _______, _______,      _______, _______, KC_8,    KC_6,    KC_SLSH, KC_F11,  KC_F12,  _______,
+                                 _______, _______, _______, _______,  _______,     _______, _______, _______, _______, _______,
     ),
 };
 
-
+// This checks mods and shift states for the custom punctuation.
 bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecord_t *record) {
     if (!record->event.pressed) {
         return true;
@@ -140,6 +115,7 @@ bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecor
     return true;
 }
 
+// This defines the actual keycode behavior for the custom punctuation.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
       case SKC_QUESTION_EXCLAMATION:
@@ -151,6 +127,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case SKC_COMMA_SEMICOLON:
           process_record_skc(KC_COMM, KC_SCLN, record);
           break;
+    }
+    return true;
+}
+
+// Defines a single key that copies on hold, and pastes on tap.
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_CCCV:  // One key copy/paste
+            if (record->event.pressed) {
+                copy_paste_timer = timer_read();
+            } else {
+                if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {  // Hold, copy
+                    tap_code16(LCTL(KC_C));
+                } else { // Tap, paste
+                    tap_code16(LCTL(KC_V));
+                }
+            }
+            break;
     }
     return true;
 }
@@ -179,25 +173,22 @@ bool oled_task_user(void) {
         oled_write_P(PSTR("Kyria rev3.0\n\n"), false);
 
         // Host Keyboard Layer Status
-        oled_write_P(PSTR("Layer: "), false);
+        oled_write_P(PSTR("Plane: "), false);
         switch (get_highest_layer(layer_state|default_layer_state)) {
-            case _THE_ONE:
-                oled_write_P(PSTR("THE-1\n"), false);
+            case _BASE:
+                oled_write_P(PSTR("Violence\n"), false);
                 break;
-            case _NAV:
-                oled_write_P(PSTR("Nav\n"), false);
+            case _NAVIGATION:
+                oled_write_P(PSTR("Liminal\n"), false);
                 break;
-            case _SYM:
-                oled_write_P(PSTR("Sym\n"), false);
+            case _SYMBOLS:
+                oled_write_P(PSTR("Ethereal\n"), false);
                 break;
-            case _FUNCTION:
-                oled_write_P(PSTR("Function\n"), false);
-                break;
-            case _ADJUST:
-                oled_write_P(PSTR("Adjust\n"), false);
+            case _NUMBERS:
+                oled_write_P(PSTR("Numinous\n"), false);
                 break;
             default:
-                oled_write_P(PSTR("Undefined\n"), false);
+                oled_write_P(PSTR("Void\n"), false);
         }
 
         // Write host Keyboard LED Status to OLEDs
@@ -223,27 +214,3 @@ bool oled_task_user(void) {
     return false;
 }
 #endif
-
-/* DELETE THIS LINE TO UNCOMMENT (1/2)
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-
-    if (index == 0) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return false;
-}
-#endif
-DELETE THIS LINE TO UNCOMMENT (2/2) */
