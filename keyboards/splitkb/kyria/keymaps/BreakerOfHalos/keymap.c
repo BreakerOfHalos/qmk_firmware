@@ -180,7 +180,7 @@ oneshot_state os_gui_state = os_up_unqueued;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     update_swapper(
-        &win_alt_active, KC_LGUI, KC_TAB, SW_WIN,
+        &win_alt_active, KC_LGUI, KC_TAB, WIN_ALT,
         keycode, record
     );
 
@@ -202,11 +202,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     );
 
     return true;
-}
-
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, _SYMBOLS, _NAVIGATION, _NUMBERS);
 }
 
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
