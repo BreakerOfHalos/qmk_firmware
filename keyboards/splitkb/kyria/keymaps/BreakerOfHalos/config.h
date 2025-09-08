@@ -23,38 +23,8 @@
 
 // Home-row mods: https://precondition.github.io/home-row-mods#tap-hold-configuration-settings
 // Configure the global tapping term (default: 200ms)
-#define TAPPING_TERM_PER_KEY
-#ifdef TAPPING_TERM_PER_KEY
-#    define TAPPING_TERM 170
-#else
-// Only for thumbs
-#    define TAPPING_TERM 220
-#endif
-
-// Apply the modifier on keys that are tapped during a short hold of a modtap
-#define PERMISSIVE_HOLD
-// Immediately turn on layer if key is pressed quickly
-#define HOLD_ON_OTHER_KEY_PRESS
-
-// Combos
-#undef COMBO_TERM
-#define COMBO_TERM 35
-#define COMBO_MUST_TAP_PER_COMBO
-#define COMBO_TERM_PER_COMBO
-// All combos are specified from the base layer, saves space
-#define COMBO_ONLY_FROM_LAYER 0
-
-#define CHORDAL_HOLD
-
-
-
-// Not supported without flto
-#define NO_ACTION_MACRO
-#define NO_ACTION_FUNCTION
+#define TAPPING_TERM 200
 
 // Save space
 // #define LAYER_STATE_8BIT
 #define LAYER_STATE_16BIT
-// These are a bit iffy, as I don't know what they're doing, but it "works fine" according to Discord people
-// #undef LOCKING_SUPPORT_ENABLE
-// #undef LOCKING_RESYNC_ENABLE
