@@ -42,9 +42,10 @@ enum custom_keycodes {
     KC_CCCV,
 
     // Custom punctuation keys
-    SKC_QUESTION_EXCLAMATION,
-    SKC_DOT_COLON,
-    SKC_COMMA_SEMICOLON,
+    QN_EXCM,
+    //SKC_QUESTION_EXCLAMATION,
+    //SKC_DOT_COLON,
+    //SKC_COMMA_SEMICOLON,
 };
 
 // Aliases for readability
@@ -62,9 +63,9 @@ enum custom_keycodes {
 #define LAUNCH  G(KC_D)
 #define OVERVW  G(KC_O)
 
-#define DOT_CN  SKC_DOT_COLON
-#define COMM_SC SKC_COMMA_SEMICOLON
-#define QN_EXCM SKC_QUESTION_EXCLAMATION
+//#define DOT_CN  SKC_DOT_COLON
+//#define COMM_SC SKC_COMMA_SEMICOLON
+//#define QN_EXCM SKC_QUESTION_EXCLAMATION
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -72,30 +73,82 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_BASE] = LAYOUT(
       _______, KC_K,    KC_M,    KC_L,    KC_U,    QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QUOT, KC_Q,    _______,
-      _______, KC_A,    KC_T,    KC_H,    KC_E,    DOT_CN,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    QK_REP,
-      _______, KC_Z,    KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    QK_AREP,
+      _______, KC_A,    KC_T,    KC_H,    KC_E,    KC_DOT,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    QK_REP,
+      _______, KC_Z,    KC_P,    KC_F,    KC_J,    KC_COMM, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    QK_AREP,
                                  _______, _______, NAV,     KC_BSPC, KC_ESC,       KC_ENT,  KC_SPC,   SYM,   _______, _______
     ),
     [_NAVIGATION]  = LAYOUT(
       _______, CLOSE,   TERM,    LAUNCH,  OVERVW,  KC_VOLU,                                          KC_CCCV, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______,
       _______, OS_SHFT, OS_ALT,  OS_GUI,  OS_CTRL, KC_MPLY,                                          CW_TOGG, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
       _______, XXXXXXX, XXXXXXX, KC_MPRV, KC_MNXT, KC_VOLD, _______, _______,      _______, _______, KC_DEL,  KC_TAB,  SC_TAB,  C_TAB,   XXXXXXX, _______,
-                                 _______, _______, _______, _______, _______,      KC_ESC, KC_BSPC,  _______, _______, _______
+                                 _______, _______, NAV,     _______, _______,      KC_ESC, KC_BSPC,  SYM,     _______, _______
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYMBOLS]  = LAYOUT(
       _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_QUOT, KC_GRV,  _______,
-      _______, KC_UNDS, KC_EQL,  KC_LPRN, KC_RPRN, DOT_CN,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
-      _______, KC_ASTR, KC_MINS, KC_LBRC, KC_RBRC, COMM_SC, _______, _______,      _______, _______, KC_AT,   KC_BSLS, KC_SLSH, KC_AMPR, KC_PIPE, _______,
-                                 _______, _______, _______, KC_SPC, KC_ENT,        _______, _______,  _______, _______, _______
+      _______, KC_UNDS, KC_EQL,  KC_LPRN, KC_RPRN, KC_DOT,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
+      _______, KC_ASTR, KC_MINS, KC_LBRC, KC_RBRC, KC_COMM, _______, _______,      _______, _______, KC_AT,   KC_BSLS, KC_SLSH, KC_AMPR, KC_PIPE, _______,
+                                 _______, _______, NAV,     KC_SPC, KC_ENT,        _______, _______, SYM,     _______, _______
     ),
     [_NUMBERS]  = LAYOUT(
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
-      _______, KC_4,    KC_7,    OS_ALT,  KC_3,    DOT_CN,                                           KC_HASH, KC_5,    OS_CTRL, KC_0,    KC_1,    _______,
-      _______, KC_2,    KC_MINS, OS_GUI,  KC_9,    COMM_SC, _______, _______,      _______, _______, KC_8,    KC_6,    KC_SLSH, KC_F11,  KC_F12,  _______,
-                                 _______, _______, _______, _______,  _______,     _______, _______, _______, _______, _______
+      _______, KC_4,    KC_7,    OS_ALT,  KC_3,    KC_DOT,                                           KC_HASH, KC_5,    OS_CTRL, KC_0,    KC_1,    _______,
+      _______, KC_2,    KC_MINS, OS_GUI,  KC_9,    KC_COMM, _______, _______,      _______, _______, KC_8,    KC_6,    KC_SLSH, KC_F11,  KC_F12,  _______,
+                                 _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______
     ),
 };
+
+bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case KC_DOT:
+            return true;
+        case KC_COMM:
+            return true;
+        case QN_EXCM:
+            return true;
+        default:
+            return false;
+    }
+}
+
+void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    switch(keycode) {
+        case KC_DOT:
+            register_code16((!shifted) ? KC_DOT : KC_COLN);
+            break;
+        case KC_COMM:
+            register_code16((!shifted) ? KC_COMM : KC_SCLN);
+            break;
+        case QN_EXCM:
+            register_code16((!shifted) ? KC_QUES : KC_EXLM);
+            break;
+        default:
+            if (shifted) {
+                add_weak_mods(MOD_BIT(KC_LSFT));
+            }
+            // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
+            register_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
+    }
+}
+
+void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    switch(keycode) {
+        case KC_DOT:
+            unregister_code16((!shifted) ? KC_DOT : KC_COLN);
+            break;
+        case KC_COMM:
+            unregister_code16((!shifted) ? KC_COMM : KC_SCLN);
+            break;
+        case QN_EXCM:
+            unregister_code16((!shifted) ? KC_QUES : KC_EXLM);
+            break;
+        default:
+            // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
+            // The IS_RETRO check isn't really necessary here, always using
+            // keycode & 0xFF would be fine.
+            unregister_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
+    }
+}
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -129,9 +182,10 @@ oneshot_state os_ctrl_state = os_up_unqueued;
 oneshot_state os_alt_state = os_up_unqueued;
 oneshot_state os_gui_state = os_up_unqueued;
 
-uint16_t copy_paste_timer;
+//uint16_t copy_paste_timer;
 
 // This checks mods and shift states for the custom punctuation.
+/* Disabling the custom code because of Auto Shift
 bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecord_t *record) {
     if (!record->event.pressed) {
         return true;
@@ -148,9 +202,11 @@ bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecor
     add_mods(mods_held);
     return true;
 }
+*/
 
 // This defines the actual keycode behavior for the custom punctuation.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    /* Disabling these as well, because of Auto Shift
     switch (keycode) {
       case SKC_QUESTION_EXCLAMATION:
           process_record_skc(KC_QUES, KC_EXLM, record);
@@ -161,6 +217,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case SKC_COMMA_SEMICOLON:
           process_record_skc(KC_COMM, KC_SCLN, record);
           break;
+      */
+      /* Disabling to see if that will fix the issue with the punctuation.
       case KC_CCCV:  // One key copy/paste
             if (record->event.pressed) {
                 copy_paste_timer = timer_read();
@@ -173,6 +231,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
     }
+    */
 
     update_swapper(
         &win_alt_active, KC_LGUI, KC_TAB, WIN_ALT,
