@@ -15,8 +15,11 @@
 */
 #include QMK_KEYBOARD_H
 
+// This is part of turing of the Liatris LEDs
+#include "gpio.h"
+
 #include "oneshot.h"
-#inclued "swapper.h"
+#include "swapper.h"
 
 enum layers {
     _BASE = 0,
@@ -36,7 +39,7 @@ enum custom_keycodes {
     OS_GUI,
 
     // One key copy/paste
-    KC_CCCV
+    KC_CCCV,
 
     // Custom punctuation keys
     SKC_QUESTION_EXCLAMATION,
@@ -68,16 +71,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * Base Layer: Modified THE-1
      */
     [_BASE] = LAYOUT(
-      _______, KC_K,    KC_M,    KC_L,    K_U,     QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QOUT, KC_Q,    _______,
+      _______, KC_K,    KC_M,    KC_L,    KC_U,    QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QUOT, KC_Q,    _______,
       _______, KC_A,    KC_T,    KC_H,    KC_E,    DOT_CN,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    QK_REP,
       _______, KC_Z,    KC_P,    KC_F,    KC_J,    COMM_SC, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    QK_AREP,
-                                 _______, _______, NAV,     KC_BKSP, KC_ESC,       KC_ENT,  KC_SPC,   SYM,   _______, _______,
+                                 _______, _______, NAV,     KC_BSPC, KC_ESC,       KC_ENT,  KC_SPC,   SYM,   _______, _______
     ),
     [_NAVIGATION]  = LAYOUT(
       _______, CLOSE,   TERM,    LAUNCH,  OVERVW,  KC_VOLU,                                          KC_CCCV, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______,
-      _______, OS_SHFT, OS_ALT,  OS_GUI,  OS_CTRL, KC_MPLAY,                                         CW_TOGG, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+      _______, OS_SHFT, OS_ALT,  OS_GUI,  OS_CTRL, KC_MPLY,                                          CW_TOGG, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
       _______, XXXXXXX, XXXXXXX, KC_MPRV, KC_MNXT, KC_VOLD, _______, _______,      _______, _______, KC_DEL,  KC_TAB,  SC_TAB,  C_TAB,   XXXXXXX, _______,
-                                 _______, _______, _______, _______, _______,      KC_ESC, KC_BKSP,  _______, _______, _______,
+                                 _______, _______, _______, _______, _______,      KC_ESC, KC_BSPC,  _______, _______, _______
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYMBOLS]  = LAYOUT(
@@ -87,64 +90,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, _______, KC_SPC, KC_ENT,        _______, _______,  _______, _______, _______
     ),
     [_NUMBERS]  = LAYOUT(
-      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_F6,   KC_F7,   KC_F8,   C_F9,    KC_F10,  _______,
+      _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
       _______, KC_4,    KC_7,    OS_ALT,  KC_3,    DOT_CN,                                           KC_HASH, KC_5,    OS_CTRL, KC_0,    KC_1,    _______,
       _______, KC_2,    KC_MINS, OS_GUI,  KC_9,    COMM_SC, _______, _______,      _______, _______, KC_8,    KC_6,    KC_SLSH, KC_F11,  KC_F12,  _______,
-                                 _______, _______, _______, _______,  _______,     _______, _______, _______, _______, _______,
+                                 _______, _______, _______, _______,  _______,     _______, _______, _______, _______, _______
     ),
 };
-
-// This checks mods and shift states for the custom punctuation.
-bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecord_t *record) {
-    if (!record->event.pressed) {
-        return true;
-    }
-    const uint8_t mods_held = mod_config(get_mods());
-    const uint8_t mods_osm = mod_config(get_oneshot_mods());
-    del_mods(mods_held);
-    clear_oneshot_mods();
-    if ((mods_held | mods_osm) & MOD_MASK_SHIFT) {
-        tap_code16(kc_1);
-    } else {
-        tap_code16(kc_0);
-    }
-    add_mods(mods_held);
-    return true;
-}
-
-// This defines the actual keycode behavior for the custom punctuation.
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-      case SKC_QUESTION_EXCLAMATION:
-          process_record_skc(KC_QUES, KC_EXLM, record);
-          break;
-      case SKC_DOT_COLON:
-          process_record_skc(KC_DOT, KC_COLN, record);
-          break;
-      case SKC_COMMA_SEMICOLON:
-          process_record_skc(KC_COMM, KC_SCLN, record);
-          break;
-    }
-    return true;
-}
-
-// Defines a single key that copies on hold, and pastes on tap.
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case KC_CCCV:  // One key copy/paste
-            if (record->event.pressed) {
-                copy_paste_timer = timer_read();
-            } else {
-                if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {  // Hold, copy
-                    tap_code16(LCTL(KC_C));
-                } else { // Tap, paste
-                    tap_code16(LCTL(KC_V));
-                }
-            }
-            break;
-    }
-    return true;
-}
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
@@ -178,7 +129,51 @@ oneshot_state os_ctrl_state = os_up_unqueued;
 oneshot_state os_alt_state = os_up_unqueued;
 oneshot_state os_gui_state = os_up_unqueued;
 
+uint16_t copy_paste_timer;
+
+// This checks mods and shift states for the custom punctuation.
+bool process_record_skc(const uint16_t kc_0, const uint16_t kc_1, const keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return true;
+    }
+    const uint8_t mods_held = mod_config(get_mods());
+    const uint8_t mods_osm = mod_config(get_oneshot_mods());
+    del_mods(mods_held);
+    clear_oneshot_mods();
+    if ((mods_held | mods_osm) & MOD_MASK_SHIFT) {
+        tap_code16(kc_1);
+    } else {
+        tap_code16(kc_0);
+    }
+    add_mods(mods_held);
+    return true;
+}
+
+// This defines the actual keycode behavior for the custom punctuation.
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+      case SKC_QUESTION_EXCLAMATION:
+          process_record_skc(KC_QUES, KC_EXLM, record);
+          break;
+      case SKC_DOT_COLON:
+          process_record_skc(KC_DOT, KC_COLN, record);
+          break;
+      case SKC_COMMA_SEMICOLON:
+          process_record_skc(KC_COMM, KC_SCLN, record);
+          break;
+      case KC_CCCV:  // One key copy/paste
+            if (record->event.pressed) {
+                copy_paste_timer = timer_read();
+            } else {
+                if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {  // Hold, copy
+                    tap_code16(LCTL(KC_C));
+                } else { // Tap, paste
+                    tap_code16(LCTL(KC_V));
+                }
+            }
+            break;
+    }
+
     update_swapper(
         &win_alt_active, KC_LGUI, KC_TAB, WIN_ALT,
         keycode, record
@@ -204,11 +199,64 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+/*/ Defines a single key that copies on hold, and pastes on tap.
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case KC_CCCV:  // One key copy/paste
+            if (record->event.pressed) {
+                copy_paste_timer = timer_read();
+            } else {
+                if (timer_elapsed(copy_paste_timer) > TAPPING_TERM) {  // Hold, copy
+                    tap_code16(LCTL(KC_C));
+                } else { // Tap, paste
+                    tap_code16(LCTL(KC_V));
+                }
+            }
+            break;
+    }
+    return true;
+}
+*/
+
+/*
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    update_swapper(
+        &win_alt_active, KC_LGUI, KC_TAB, WIN_ALT,
+        keycode, record
+    );
+
+    update_oneshot(
+        &os_shft_state, KC_LSFT, OS_SHFT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_ctrl_state, KC_LCTL, OS_CTRL,
+        keycode, record
+    );
+    update_oneshot(
+        &os_alt_state, KC_LALT, OS_ALT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_gui_state, KC_LGUI, OS_GUI,
+        keycode, record
+    );
+
+    return true;
+}
+*/
+
 /* The default OLED and rotary encoder code can be found at the bottom of qmk_firmware/keyboards/splitkb/kyria/rev1/rev1.c
  * These default settings can be overriden by your own settings in your keymap.c
  * For your convenience, here's a copy of those settings so that you can uncomment them if you wish to apply your own modifications.
  * DO NOT edit the rev1.c file; instead override the weakly defined default functions by your own.
  */
+
+// This turns of the onboard power LED for the Liatris
+void keyboard_pre_init_user(void) {
+    gpio_set_pin_output(24);
+    gpio_write_pin_high(24);
+}
 
 
 #ifdef OLED_ENABLE
@@ -263,18 +311,7 @@ bool oled_task_user(void) {
         oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
     } else {
         // clang-format off
-        static const char PROGMEM kyria_logo[] = {
-            /* Kyria logo
-            0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,128,128,192,224,240,112,120, 56, 60, 28, 30, 14, 14, 14,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  7, 14, 14, 14, 30, 28, 60, 56,120,112,240,224,192,128,128,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-            0,  0,  0,  0,  0,  0,  0,192,224,240,124, 62, 31, 15,  7,  3,  1,128,192,224,240,120, 56, 60, 28, 30, 14, 14,  7,  7,135,231,127, 31,255,255, 31,127,231,135,  7,  7, 14, 14, 30, 28, 60, 56,120,240,224,192,128,  1,  3,  7, 15, 31, 62,124,240,224,192,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-            0,  0,  0,  0,240,252,255, 31,  7,  1,  0,  0,192,240,252,254,255,247,243,177,176, 48, 48, 48, 48, 48, 48, 48,120,254,135,  1,  0,  0,255,255,  0,  0,  1,135,254,120, 48, 48, 48, 48, 48, 48, 48,176,177,243,247,255,254,252,240,192,  0,  0,  1,  7, 31,255,252,240,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-            0,  0,  0,255,255,255,  0,  0,  0,  0,  0,254,255,255,  1,  1,  7, 30,120,225,129,131,131,134,134,140,140,152,152,177,183,254,248,224,255,255,224,248,254,183,177,152,152,140,140,134,134,131,131,129,225,120, 30,  7,  1,  1,255,255,254,  0,  0,  0,  0,  0,255,255,255,  0,  0,  0,  0,255,255,  0,  0,192,192, 48, 48,  0,  0,240,240,  0,  0,  0,  0,  0,  0,240,240,  0,  0,240,240,192,192, 48, 48, 48, 48,192,192,  0,  0, 48, 48,243,243,  0,  0,  0,  0,  0,  0, 48, 48, 48, 48, 48, 48,192,192,  0,  0,  0,  0,  0,
-            0,  0,  0,255,255,255,  0,  0,  0,  0,  0,127,255,255,128,128,224,120, 30,135,129,193,193, 97, 97, 49, 49, 25, 25,141,237,127, 31,  7,255,255,  7, 31,127,237,141, 25, 25, 49, 49, 97, 97,193,193,129,135, 30,120,224,128,128,255,255,127,  0,  0,  0,  0,  0,255,255,255,  0,  0,  0,  0, 63, 63,  3,  3, 12, 12, 48, 48,  0,  0,  0,  0, 51, 51, 51, 51, 51, 51, 15, 15,  0,  0, 63, 63,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 48, 48, 63, 63, 48, 48,  0,  0, 12, 12, 51, 51, 51, 51, 51, 51, 63, 63,  0,  0,  0,  0,  0,
-            0,  0,  0,  0, 15, 63,255,248,224,128,  0,  0,  3, 15, 63,127,255,239,207,141, 13, 12, 12, 12, 12, 12, 12, 12, 30,127,225,128,  0,  0,255,255,  0,  0,128,225,127, 30, 12, 12, 12, 12, 12, 12, 12, 13,141,207,239,255,127, 63, 15,  3,  0,  0,128,224,248,255, 63, 15,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-            0,  0,  0,  0,  0,  0,  0,  3,  7, 15, 62,124,248,240,224,192,128,  1,  3,  7, 15, 30, 28, 60, 56,120,112,112,224,224,225,231,254,248,255,255,248,254,231,225,224,224,112,112,120, 56, 60, 28, 30, 15,  7,  3,  1,128,192,224,240,248,124, 62, 15,  7,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-            0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  3,  7, 15, 14, 30, 28, 60, 56,120,112,112,112,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,224,112,112,112,120, 56, 60, 28, 30, 14, 15,  7,  3,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
-            */
-
+        static const char PROGMEM spider_glyph[] = {
             // Spider Icon, 128x64px
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -342,7 +379,7 @@ bool oled_task_user(void) {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         };
         // clang-format on
-        oled_write_raw_P(kyria_logo, sizeof(kyria_logo));
+        oled_write_raw_P(spider_glyph, sizeof(spider_glyph));
     }
     return false;
 }
