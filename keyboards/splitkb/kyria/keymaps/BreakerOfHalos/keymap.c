@@ -30,7 +30,7 @@ enum layers {
 
 enum custom_keycodes {
     // Custom Win + Alt for window toggling on Windows
-    WIN_ALT,
+    WIN_ALT = QK_USER,
 
     // Instant oneshot mods
     OS_SHFT,
@@ -97,6 +97,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______
     ),
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, _NAVIGATION, _SYMBOLS, _NUMBERS);
+}
 
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {

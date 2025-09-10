@@ -1,6 +1,6 @@
 CONVERT_TO = liatris
 OLED_ENABLE = yes
-RGB_MATRIX_ENABLE = yes     # Enable keyboard RGB matrix
+RGB_MATRIX_ENABLE = no     # Enable keyboard RGB matrix
 #RGBLIGHT_ENABLE = yes      # Enable keyboard RGB underglow
 #WS2812_DRIVER = vendor
 REPEAT_KEY_ENABLE = yes
