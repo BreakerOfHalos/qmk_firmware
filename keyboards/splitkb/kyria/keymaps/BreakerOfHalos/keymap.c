@@ -157,7 +157,7 @@ void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record)
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
     case SYM:
-    case NAV:
+    case NAV_SPC:
         return true;
     default:
         return false;
@@ -167,7 +167,7 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
     case SYM:
-    case NAV:
+    case NAV_SPC:
     case KC_LSFT:
     case OS_SHFT:
     case OS_CTRL:
