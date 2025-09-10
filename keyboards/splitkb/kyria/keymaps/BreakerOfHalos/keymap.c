@@ -51,7 +51,7 @@ enum custom_keycodes {
 // Aliases for readability
 #define BASE DF(_BASE)
 
-#define NAV     MO(_NAVIGATION)
+#define NAV_SPC LT(_NAVIGATION, KC_SPC)
 #define SYM     MO(_SYMBOLS)
 #define NUM     MO(_NUMBERS)
 
@@ -75,20 +75,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, KC_K,    KC_M,    KC_L,    KC_U,    QN_EXCM,                                           KC_V,   KC_D,    KC_R,    KC_QUOT, KC_Q,    _______,
       _______, KC_A,    KC_T,    KC_H,    KC_E,    KC_DOT,                                            KC_C,   KC_S,    KC_N,    KC_O,    KC_I,    QK_REP,
       _______, KC_Z,    KC_P,    KC_F,    KC_J,    KC_COMM, _______, _______,      _______, _______,  KC_B,   KC_G,    KC_W,    KC_X,    KC_Y,    QK_AREP,
-                                 _______, _______, NAV,     KC_BSPC, KC_ESC,       KC_ENT,  KC_SPC,   SYM,   _______, _______
+                                 _______, _______, SYM,     KC_BSPC, KC_ESC,       KC_ENT,  NAV_SPC,  SYM,   _______, _______
     ),
     [_NAVIGATION]  = LAYOUT(
       _______, CLOSE,   TERM,    LAUNCH,  OVERVW,  KC_VOLU,                                          KC_CCCV, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  _______,
       _______, OS_SHFT, OS_ALT,  OS_GUI,  OS_CTRL, KC_MPLY,                                          CW_TOGG, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
       _______, XXXXXXX, XXXXXXX, KC_MPRV, KC_MNXT, KC_VOLD, _______, _______,      _______, _______, KC_DEL,  KC_TAB,  SC_TAB,  C_TAB,   XXXXXXX, _______,
-                                 _______, _______, NAV,     _______, _______,      KC_ESC, KC_BSPC,  SYM,     _______, _______
+                                 _______, _______, SYM,     _______, _______,      KC_ESC,  NAV_SPC, SYM,     _______, _______
     ),
     // Important that the symbols on the base layer have the same positions as these symbols
     [_SYMBOLS]  = LAYOUT(
       _______, KC_TILD, KC_PLUS, KC_LCBR, KC_RCBR, QN_EXCM,                                          KC_CIRC, KC_LABK, KC_RABK, KC_QUOT, KC_GRV,  _______,
       _______, KC_UNDS, KC_EQL,  KC_LPRN, KC_RPRN, KC_DOT,                                           KC_HASH, OS_CTRL, OS_GUI,  OS_ALT,  OS_SHFT, _______,
       _______, KC_ASTR, KC_MINS, KC_LBRC, KC_RBRC, KC_COMM, _______, _______,      _______, _______, KC_AT,   KC_BSLS, KC_SLSH, KC_AMPR, KC_PIPE, _______,
-                                 _______, _______, NAV,     KC_SPC, KC_ENT,        _______, _______, SYM,     _______, _______
+                                 _______, _______, SYM,     KC_SPC, KC_ENT,        _______, NAV_SPC, SYM,     _______, _______
     ),
     [_NUMBERS]  = LAYOUT(
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______,
